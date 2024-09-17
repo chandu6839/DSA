@@ -149,46 +149,85 @@ const twoSteps = (n) => {
     }
     return result;
 }
-function getPermutations(input) {
-    // Base case: If the input is empty, return an array with a single empty array.
-    if (input.length === 0) return [[]];
-
-    // Base case: If there's only one element, return it as the only permutation.
-    if (input.length === 1) return [input];
-
-    // This will store the final list of permutations.
+//46. Permutations
+const permute = (nums) => {
+    const n = nums.length;
+    if(n === 0 ) return [[]];
+    if(n === 1 ) return [nums];
     let permutations = [];
-
-    // Iterate through each element in the input.
-    for (let i = 0; i < input.length; i++) {
-        const currentElem = input[i];
-        
-        // To prevent duplicate permutations, skip iterations where the current element
-        // is the same as the previous one. This assumes the input is sorted for duplicate checks.
-        if (i > 0 && input[i] === input[i - 1]) continue;
-
-        // Get a new array excluding the current element.
-        const remainingInput = [...input.slice(0, i), ...input.slice(i+1)];
-
-        // Recursively get the permutations of the remaining elements.
-        const remainingPermutations = getPermutations(remainingInput);
-
-        // Combine the current element with each of the permutations of the remaining elements.
-        for (let perm of remainingPermutations) {
-            permutations.push([currentElem, ...perm]);
+    for (let i = 0; i < n; i++) {
+        const current = nums[i];
+        if(i > 0 && nums[i] === nums[i-1]) continue;
+        const remaining = [...nums.slice(0,i), ...nums.slice(i+1)];
+        const remainingpernutations = permute(remaining);
+        for (let ele of remainingpernutations) {
+            permutations.push([current, ...ele]);
         }
     }
-
-    // Return the generated permutations.
     return permutations;
 }
+//72 Longest Consecutive Sequence [Solution]
+const longestConsecutive = (nums) => {
+    const n = nums.length;
+    if(n === 0 ) return 0;
+    const hasSet = Array.from(new Set(nums.sort((a,b)=>a-b)));
+    let longSteak = 0;
+    let counter = 0;
+    for (let i = 0; i < hasSet.length; i++) { console.log(hasSet[i]);
+        if(hasSet[i+1] - hasSet[i] === 1){
+            counter ++;
+        }
+        else {
+            longSteak = Math.max(longSteak, counter);
+            counter = 0;
+            }
+        }
+        //return longSteak !== 0 ? longSteak + 1 : 0;
+        return !longSteak&&longSteak || longSteak + 1;
+    }
 
 
+//27  Remove Element (nums, val)
+var removeElement = function(nums, val) {
+    const n = nums.length;
+    let i = 0;
+    while (i < n) {
+        if(nums[i] === val) {
+            nums.splice(i,1)
+        }else{
+            i++
+        }
+    }
+    return nums.length;
+};
 
+//26 removeDuplicates
+var removeDuplicates = function(nums) {
+    //const n = nums.length;
+    let i = 0;
+    while (i < nums.length ) {
+        console.log(i, nums)
+        let x = nums.splice(i,1);
+        if(nums.indexOf(x[0]) === -1) {
+            nums[i] = x[0];
+        }
+        i++;
+    }
+    return nums;//.length;//.concat(Array(counter).fill('_'))
+};
 
-
-
-
+//Plus one Array.from(String(BigInt(digits.join(""))+BigInt(1)),Number)
+var plusOne = function(digits) {  
+    for (let i = digits.length - 1; i >= 0 ; i--) {
+        if(digits[i] < 9){
+            digits[i]++;
+            return digits;
+        }
+        digits[i] = 0;
+    }
+    digits.unshift(1);
+    return digits;
+};
 
 
 
