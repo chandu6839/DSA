@@ -141,7 +141,6 @@ const lPalindrome = (s) => {
             start = i - Math.floor((len - 1)/2);
         }
     }
-
     return s.substring(start, start + maxLength);
 }
 
