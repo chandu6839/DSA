@@ -34,45 +34,6 @@ const factorialRecursive = (n) => {
     return n * factorialRecursive(n - 1);
 }
 
-//N Queen's
-const nQueens = (n) => {
-    const sol = [];
-    const boardFn = (n) => Array(n).fill().map(()=>Array(n).fill('.'));
-    const board = boardFn(n);
-    const isSafe = (board, row, col) => {
-        //check col
-        for(let i=0; i<row; i++){
-            if(board[i][col] == 'Q') return false;
-        }
-        //check upper-left diagonal
-        for(let i=row, j=col; i>=0 && j>=0; i--, j--){
-            if(board[i][j] == 'Q') return false;
-        }
-        //check upper-right diagonal
-        for(let i=row, j=col; i>=0 && j<n; i--, j++){
-            if(board[i][j] == 'Q') return false;
-        }
-        return true;
-    }
-    const place = (row) => {
-         if (row === n) {
-          // If all queens are placed, add the solution to the results
-          const solution = board.map(row => row.join(''));
-          sol.push(solution);
-          return;
-        }
-        for (let col = 0; col < n; col++) {
-            if(isSafe(board, row, col)){
-                board[row][col] = 'Q';
-                place(row + 1);
-                board[row][col] = '.';
-            }
-        }
-    }
-    place(0);
-    return sol;
-}
-
 //consecutive SubString
 function SubstringFunction(input) {
     if (input.length === 0) return [''];
@@ -230,14 +191,27 @@ var plusOne = function(digits) {
 };
 
 
+//valid sudoku
+var isValidSudoku = function(board) {
+    const row = new Array(9).fill().map(()=> new Set());
+    const col = new Array(9).fill().map(()=> new Set());
+    const boardBox = new Array(9).fill().map(()=> new Set());
 
-
-
-
-
-
-
-
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            const v = board[i][j];
+            if(v !== '.'){
+                const boardIndex = Math.floor(i/3) * 3 + Math.floor(j/3);
+                if(row[i].has(v) || col[j].has(v) || boardBox[boardIndex].has(v)) return false;
+                row[i].add(v);
+                col[j].add(v);
+                boardBox[boardIndex].add(v);
+            }
+            
+        }
+    }
+    return true;
+};
 
 
 
